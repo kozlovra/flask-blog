@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Поиск: {{ search }}{% endblock %}
+{% block content %}
+	<div class="card">
+	  <div class="card-body">
+	    <h1>Поиск: {{ search }}</h1>
+	  </div>
+	</div>
+	<ul class="list-group">
+	{% set items = result.fetchall() %}
+	{% for item in items %}
+	    <li class="list-group-item"><a href="/blog/{{ item['slug'] }}">{{ item['title'].capitalize() }}</a><p><small class="text-muted">{{ item['content'][0:190] }}....</p></small><small class="text-muted">{{ item['date'] }} &#8226; <a href="/category/{{ item['catslug'] }}">{{ item['category'] }}</a></small></li>  
+	{% endfor %}
+	{% if not items %}
+	<li class="list-group-item"><a>Нет результатов поиска</a></li>
+	{% endif %}
+	</ul>
+{% endblock %}

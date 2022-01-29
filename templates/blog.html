@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Блог{% endblock %}
+{% block content %}
+	<div class="card">
+	  <div class="card-body">
+	    <h1>Блог</h1>
+	  </div>
+	</div>
+	<ul class="list-group">
+	{% for item in result %}
+	<li class="list-group-item"><a href="/blog/{{ item['slug'] }}">{{ item['title'].capitalize() }}</a><p><small class="text-muted">{{ item['content'][0:190] }}....</p></small><small class="text-muted">{{ item['date'] }} &#8226; <a href="/category/{{ item['catslug'] }}">{{ item['category'] }}</a></small></li>
+	{% endfor %}
+	</ul>
+	<nav aria-label="Page navigation example">
+	<ul class="pagination">
+	{% for i in range(count) %}
+	{% set i = i+1 %}
+	{% set href = '/blog/page/'+i | string %}
+	{% set path = request.path %}
+	{% if request.path == '/blog' %}
+	{% set path = '/blog/page/1' %}
+	{% endif %}
+	<li class="page-item {% if path == href %}disabled{% endif %}"><a class="page-link" href="{{href}}">{{i}}</a></li>
+	{% endfor %}
+	</ul>
+	</nav>
+{% endblock %}
